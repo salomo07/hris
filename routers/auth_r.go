@@ -12,7 +12,7 @@ func AuthRouter(r *gin.Engine) {
 	r.Static("assets/", "./assets")
 
 	r.GET("/", func(c *gin.Context) { //Untuk Web
-		c.HTML(200, "index.html", gin.H{"appname":os.Getenv("APP_NAME")})
+		c.HTML(200, "landing.html", gin.H{"appname":os.Getenv("APP_NAME")})
 	})
 	r.GET("/login", func(c *gin.Context) { //Untuk Web
 		c.HTML(200, "login.html", gin.H{"appname":os.Getenv("APP_NAME")})
