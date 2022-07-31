@@ -1,0 +1,9 @@
+cd C:\Program Files\PostgreSQL\14\bin
+pg_dump.exe -U postgres -s pdpbilling > schema.sql //Scheme only
+pg_dump.exe --inserts -U postgres --column-inserts postgres > schema.sql //Scheme with Data
+copy schema.sql D:\Share\pdproject //Copy
+
+heroku config:set GOVERSION=go1.17.5 //Jalankan di cmd setelah heroku login
+
+Modul :
+controller (company_c.go)

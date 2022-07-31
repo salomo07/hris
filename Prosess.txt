@@ -1,0 +1,7 @@
+@ Add Company otomatis nambahkan Role Admin baru
+@ Pembuatan User (Ownner) Reseller
+1) Cek apakah Reseller tersebut sdh pnya user ownner.
+	Tidak	
+	- Daftarkan Reseller tersebut sebagai Company
+	- 
+			
