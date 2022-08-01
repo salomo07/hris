@@ -2,7 +2,7 @@
 @font-face {
   font-family: "Material Design Icons";
   src: url("fonts/materialdesignicons-webfont.eot@v=2.0.46");
-  src: url("fonts/materialdesignicons-webfont.eot@") format("embedded-opentype"), url("https://php.spruko.com/sash/sash/assets/iconfonts/materialdesignicons/fonts/materialdesignicons-webfont.woff2?v=2.0.46") format("woff2"), url("fonts/materialdesignicons-webfont.woff@v=2.0.46") format("woff"), url("fonts/materialdesignicons-webfont.ttf@v=2.0.46") format("truetype"), url("fonts/materialdesignicons-webfont.svg@v=2.0.46") format("svg");
+  src: url("fonts/materialdesignicons-webfont.eot@") format("embedded-opentype"), url("../materialdesignicons/fonts/materialdesignicons-webfont.woff2?v=2.0.46") format("woff2"), url("fonts/materialdesignicons-webfont.woff@v=2.0.46") format("woff"), url("fonts/materialdesignicons-webfont.ttf@v=2.0.46") format("truetype"), url("fonts/materialdesignicons-webfont.svg@v=2.0.46") format("svg");
   font-weight: normal;
   font-style: normal;
 }
