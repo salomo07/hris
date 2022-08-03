@@ -15,13 +15,16 @@ func AuthRouter(r *gin.Engine) {
 		c.HTML(200, "landing.html", gin.H{"appname":os.Getenv("APP_NAME")})
 	})
 	r.GET("/login", func(c *gin.Context) { //Untuk Web
-		c.HTML(200, "login.html", gin.H{"appname":os.Getenv("APP_NAME")})
+		c.HTML(200, "login.html", gin.H{"appname":os.Getenv("APP_NAME"),"cid":os.Getenv("GoogleOuthCID")})
 	})
 	r.GET("/resetpassword", func(c *gin.Context) { //Untuk Web
 		c.HTML(200, "forgotpassword.html", gin.H{"appname":os.Getenv("APP_NAME")})
 	})
 	r.GET("/register", func(c *gin.Context) { //Untuk Web
-		c.HTML(200, "register.html", gin.H{"appname":os.Getenv("APP_NAME")})
+		c.HTML(200, "register.html", gin.H{"appname":os.Getenv("APP_NAME"),"cid":os.Getenv("GoogleOuthCID")})
+	})
+	r.GET("/terms", func(c *gin.Context) { //Untuk Web
+		c.HTML(200, "terms.html", gin.H{"appname":os.Getenv("APP_NAME")})
 	})
 	r.POST("/trylogin", func(c *gin.Context) { //Untuk Web
 		log.Println("trylogin")
