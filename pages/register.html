@@ -2,8 +2,6 @@
 <html lang="en" dir="ltr">
 
     <head>
-        
-        <!-- META DATA -->
         <meta charset="UTF-8">
         <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,30 +35,6 @@
         <link href="../assets/switcher/css/switcher.css" rel="stylesheet" />
         <link href="../assets/switcher/demo.css" rel="stylesheet" />
         <link href="../assets/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
-        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-        <style type="text/css">
-		    span.label {
-		      font-family: serif;
-		      font-weight: normal;
-		    }
-		    span.icon {
-		      background: url('/identity/sign-in/g-normal.png') transparent 5px 50% no-repeat;
-		      display: inline-block;
-		      vertical-align: middle;
-		      width: 42px;
-		      height: 42px;
-		    }
-		    span.buttonText {
-		      display: inline-block;
-		      vertical-align: middle;
-		      padding-left: 42px;
-		      padding-right: 42px;
-		      font-size: 14px;
-		      font-weight: bold;
-		      /* Use the Roboto font that is loaded in the <head> */
-		      font-family: 'Roboto', sans-serif;
-		    }
-		</style>
     </head>
 
     <body class="app sidebar-mini login-img ltr">
@@ -146,8 +120,9 @@
 			                                            <i class="fa fa-google"></i>
 			                                        </div>
 			                                    </a>
-											  <div id="name"></div>
-			                                    <a href="javascript:void(0)">
+			                                    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+												</fb:login-button>
+			                                    <a id="fbBtn" onclick="onClickFB()" href="javascript:void(0)">
 			                                        <div class="social-login me-4 text-center">
 			                                            <i class="fa fa-facebook"></i>
 			                                        </div>
@@ -224,11 +199,59 @@
 	auth2.attachClickHandler(element, {},
 	    function(googleUser) {
 	    	console.log("xxxxxxxxxxxxxxx",googleUser.getBasicProfile().getEmail())
-			// document.getElementById('name').innerText = "Signed in: " +googleUser.getBasicProfile().getName();
 	    }, function(error) {
 	      console.log(JSON.stringify(error, undefined, 2));
 	    });
 	}
-
 	startApp();
+
+	var callPOST=((url,data,scs,err)=>{
+	    var settings = {
+	      "url": url,"method": "POST","data": JSON.stringify(data),
+	      "success":((result)=>{
+	        if(result.error!=undefined){toastr.error(result.error,"Error");err();return}
+	        if(result==null){
+	          err({"error":"no response"})
+	        }else if (result!=null){
+	          scs(result)
+	        }
+	      }),
+	      "error":(request, status, error)=>{
+	        try{
+	          JSON.parse(request.responseText).result
+	          if (JSON.parse(request.responseText).result == "Unauthorized"){
+	            alert("Your session is over, please sign in !!!");
+	            window.location.href = "/";
+	          }
+	        }
+	        catch(err) {
+	          toastr.error(err.message,"Error");
+	        }
+	      }
+	    };
+	    $.ajax(settings)
+	})
+
+	window.fbAsyncInit = function() {
+	FB.init({
+		  appId      : '562502205568851',
+		  cookie     : true,
+		  xfbml      : false,
+		  version    : 'v2.7'
+		});
+		console.log("ddddddd",FB.Event)  
+		FB.AppEvents.logPageView();   
+		// FB.Event.subscribe('xfbml.render', finished_rendering);
+	};
+
+	(function(d, s, id){
+	 var js, fjs = d.getElementsByTagName(s)[0];
+	 if (d.getElementById(id)) {return;}
+	 js = d.createElement(s); js.id = id;
+	 js.src = "https://connect.facebook.net/en_US/sdk.js";
+	 fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+	var onClickFB=()=>{
+		FB.login(function(response) {}, {scope: 'public_profile,email'});
+	}
 </script>
