@@ -5,7 +5,7 @@ import (
 	_"encoding/base64"
 	"github.com/gin-gonic/gin"
 	"log"
-	_"hris/controllers"
+	"hris/controllers"
 )
 func AuthRouter(r *gin.Engine) {	
 	r.LoadHTMLGlob("pages/*")
@@ -21,10 +21,16 @@ func AuthRouter(r *gin.Engine) {
 		c.HTML(200, "forgotpassword.html", gin.H{"appname":os.Getenv("APP_NAME")})
 	})
 	r.GET("/register", func(c *gin.Context) { //Untuk Web
-		c.HTML(200, "register.html", gin.H{"appname":os.Getenv("APP_NAME"),"cid":os.Getenv("GoogleOuthCID")})
+		c.HTML(200, "register.html", gin.H{"appname":os.Getenv("APP_NAME"),"cid":os.Getenv("GoogleOuthCID"),"fid":os.Getenv("AppFbID")})
 	})
 	r.GET("/terms", func(c *gin.Context) { //Untuk Web
 		c.HTML(200, "terms.html", gin.H{"appname":os.Getenv("APP_NAME")})
+	})
+	r.POST("/checkemail", func(c *gin.Context) { //Untuk Web
+		c.JSON(200, controllers.CheckEmailExist(c))
+	})
+	r.POST("/checkusername", func(c *gin.Context) { //Untuk Web
+		c.JSON(200, controllers.CheckUsernameExist(c))
 	})
 	r.POST("/trylogin", func(c *gin.Context) { //Untuk Web
 		log.Println("trylogin")

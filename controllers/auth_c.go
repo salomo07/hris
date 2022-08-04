@@ -25,6 +25,18 @@ type AccessMenu struct {
 type TokenStruct2 struct {
 	User models.User `json:"user"`
 }
+func CheckEmailExist(c *gin.Context)([]models.User){
+	var user models.User
+	jsonData, _ := c.GetRawData()
+	json.Unmarshal(jsonData,&user)
+	return models.GetUser(user)
+}
+func CheckUsernameExist(c *gin.Context)([]models.User){
+	var user models.User
+	jsonData, _ := c.GetRawData()
+	json.Unmarshal(jsonData,&user)
+	return models.GetUser(user)
+}
 func CheckAPI(c *gin.Context)(a models.Application){
 	tokenIn,_:=c.Cookie("token")
 	
@@ -81,7 +93,6 @@ func LoginWeb(c *gin.Context){
 	
 	if username != "" && password != ""{
 		userData:=models.GetUserFull(models.User{Username:username})
-		log.Println("xxxxxxxxxxx",userData)
 		
 		if userData.Username==""{
 			c.Redirect(http.StatusFound,"/login/"+base64.StdEncoding.EncodeToString([]byte(from)))
