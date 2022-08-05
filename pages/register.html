@@ -66,81 +66,44 @@
                                     Registration
                                 </span>
                                 <div id="smartwizard">
-
-								    <ul class="nav">
-								        <li class="nav-item">
-								          <a class="nav-link" href="#step-1">
-								            <div class="num">1</div>
-								            Account
-								          </a>
-								        </li>
-								        <li class="nav-item">
-								          <a class="nav-link" href="#step-2">
-								            <span class="num">2</span>
-								            Step Title
-								          </a>
-								        </li>
-								    </ul>
 								    <div class="tab-content">
-								        <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
-								            <div class="wrap-input100 validate-input input-group" data-bs-validate="Valid email is required: ex@abc.xyz">
-			                                    <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
-			                                        <i class="mdi mdi-account" aria-hidden="true"></i>
-			                                    </a>
-			                                    <input name="txtUsername" id="txtUsername" class="input100 border-start-0 ms-0 form-control" type="text" placeholder="Username">
-			                                </div>
-			                                <div class="wrap-input100 validate-input input-group" data-bs-validate="Valid email is required: ex@abc.xyz">
-			                                    <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
-			                                        <i class="zmdi zmdi-email" aria-hidden="true"></i>
-			                                    </a>
-			                                    <input name="txtEmail" id="txtEmail" class="input100 border-start-0 ms-0 form-control" type="email" placeholder="Email">
-			                                </div>
-			                                <div class="wrap-input100 validate-input input-group" id="Password-toggle">
-			                                    <a class="input-group-text bg-white text-muted">
-			                                        <i class="zmdi zmdi-eye" aria-hidden="true"></i>
-			                                    </a>
-			                                    <input name="txtPass" id="txtPass" class="input100 border-start-0 ms-0 form-control" type="password" placeholder="Password">
-			                                </div>
-			                                <div class="wrap-input100 validate-input input-group" id="Password-toggle">
-			                                    <a class="input-group-text bg-white text-muted">
-			                                        <i class="zmdi zmdi-eye" aria-hidden="true"></i>
-			                                    </a>
-			                                    <input name="txtPass2" id="txtPass2" class="input100 border-start-0 ms-0 form-control" type="password" placeholder="Retype Password">
-			                                </div>
-			                                <label class="custom-control custom-checkbox mt-4">
-			                                    <input type="checkbox" class="custom-control-input">
-			                                    <span class="custom-control-label">Agree the <a href="/terms">terms and policy</a></span>
-			                                </label>
-			                                <div class="container-login100-form-btn">
-			                                    <a onclick="step1()" class="login100-form-btn btn-primary">
-	                                            	Next
-			                                    </a>
-			                                </div>
-			                                <div class="text-center pt-3">
-			                                    <p class="text-dark mb-0">Already have account?<a href="/login" class="text-primary ms-1">Sign In</a></p>
-			                                </div>
-			                                <div id="register">
-				                                <label class="login-social-icon"><span>Register with Social</span></label>
-				                                <div class="d-flex justify-content-center">
-												    <a id="customBtn">
-				                                        <div class="social-login me-4 text-center" data-onsuccess="onSignIn">
-				                                            <i class="fa fa-google"></i>
-				                                        </div>
-				                                    </a>
-				                                    <a id="fbBtn" onclick="onClickFB()" href="javascript:void(0)">
-				                                        <div class="social-login me-4 text-center">
-				                                            <i class="fa fa-facebook"></i>
-				                                        </div>
-				                                    </a>
-				                                </div>
-			                                </div>
-								        </div>
-								        <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
-								            Step content
-								        </div>
+							        <div id="wizard2">
+                                        <h3><center>Account Information</center></h3>
+                                        <section>
+                                        	<div class="control-group form-group">
+                                                <label class="form-label">Username : <span
+                                                        class="tx-danger">*</span></label></label>
+                                                <input id="username" name="username" required="" type="text" class="form-control" placeholder="Username" onkeyup="checkUsername(this)" onchange="checkUsername(this)" data-parsley-type="alphanum" minlength="4">
+                                            </div>
+                                            <div class="control-group form-group">
+                                                <label class="form-control-label">Email : <span class="tx-danger">*</span></label>
+                                                <input id="email" name="email" required="" type="email" class="form-control" placeholder="Email" data-parsley-type="email" onchange="checkEmail(this)" onkeyup="checkEmail(this)">
+                                            </div>
+                                        </section>
+                                        <h3>Billing Information</h3>
+                                        <section>
+                                            <p>Wonderful transition effects.</p>
+                                            <div class="form-group wd-xs-300">
+                                                <label class="form-control-label">Email: <span class="tx-danger">*</span></label> <input class="form-control"
+                                                    id="email" name="email" placeholder="Enter email address" type="email" required="" autocomplete="new-password">
+                                            </div>
+                                        </section>
+                                        <div id="register">
+		                                <label class="login-social-icon"><span>Or register with other account</span></label>
+		                                <div class="d-flex justify-content-center">
+										    <a id="customBtn">
+		                                        <div class="social-login me-4 text-center" data-onsuccess="onSignIn">
+		                                            <i class="fa fa-google"></i>
+		                                        </div>
+		                                    </a>
+		                                    <a id="fbBtn" onclick="onClickFB()" href="javascript:void(0)">
+		                                        <div class="social-login me-4 text-center">
+		                                            <i class="fa fa-facebook"></i>
+		                                        </div>
+		                                    </a>
+		                                </div>
+	                                </div>
 								    </div>
-
-								    <!-- Include optional progressbar HTML -->
 								    
 								</div>
                             </form>
@@ -174,17 +137,18 @@
         <script src="../assets/js/show-password.min.js"></script>
         
         <script src="../assets/js/jquery.smartWizard.min.js"></script>
+        <script src="../assets/js/jquery.steps.min.js"></script>
+        <script src="../assets/js/parsley.min.js"></script>
+        <script src="../assets/js/jquery.accordion-wizard.min.js"></script>
         <script src="../assets/js/api_client.js"></script>
         <script src="../assets/js/toastr.min.js"></script>
     </body>
 
 </html>
 <script>
-	$('#smartwizard').smartWizard({
-		selected: 0,
-        theme: 'dots',
-        toolbar:{position :'top',showNextButton: false,showPreviousButton: false}
-    });
+	var usernameParsley=$('#username').parsley();
+	var emailParsley=$('#email').parsley();
+
     var step1=()=>{
 
     }
@@ -236,8 +200,22 @@
 		console.log(element.id);
 		auth2.attachClickHandler(element, {},
 		    function(googleUser) {
-		    	toastr.success("Welcome "+googleUser.getBasicProfile().getName()+", please continue register");
-		    	console.log(googleUser.getBasicProfile().getName())
+		    	// console.log(googleUser.getBasicProfile().getEmail());
+		    	$("#username").val(googleUser.getBasicProfile().getName().split(" ").join(""));
+				$("#email").val(googleUser.getBasicProfile().getEmail());
+				callPOST("/checkusername",{username:googleUser.getBasicProfile().getName().split(" ").join("")},(res)=>{
+					if (res.length>0){
+						toastr.warning("Username is already taken");
+					}
+				});
+				$("#pass").focus();
+				callPOST("/checkemail",{email:googleUser.getBasicProfile().getEmail().toLowerCase()},(res)=>{
+					if (res.length>0){
+						console.log(usernameParsley)
+						toastr.warning("Email is already registered, please sign-in with this email");
+						$('#email').parsley().addError('emailexist', {message: 'Email is already registered, please sign-in with this email'});
+					}
+				});
 		    }, 
 		    function(error) {
 		      console.log(JSON.stringify(error, undefined, 2));
@@ -248,12 +226,7 @@
 
 
 	window.fbAsyncInit = function() {
-	FB.init({
-		  appId      : atob('{{.fid}}'),
-		  cookie     : true,
-		  xfbml      : false,
-		  version    : 'v2.7'
-		});		
+	FB.init({appId:atob('{{.fid}}'),cookie: true,xfbml: false,version:'v2.7'});		
 		FB.AppEvents.logPageView();   
 	};
 
@@ -267,32 +240,74 @@
 
 	var onClickFB=()=>{
 		FB.login(function(response) {
-			console.log(response);
 			if (response.authResponse){
 				console.log(response.authResponse.accessToken);
 				callGET("https://graph.facebook.com/"+response.authResponse.userID+"?fields=email,name&access_token="+response.authResponse.accessToken,(rst)=>{
-						console.log(rst);
-						$("#txtUsername").val(rst.name.split(" ").join(""));
-						$("#txtEmail").val(rst.email);
-						toastr.success("Welcome "+rst.name+", please continue register");
-						checkingUsernameExist(rst.name.split(" ").join(""));
-						$("#txtPass").focus();
+						$("#username").val(rst.name.split(" ").join(""));
+						$("#email").val(rst.email);
+						callPOST("/checkusername",{username:rst.name.split(" ").join("")},(res)=>{
+							if (res.length>0){
+								toastr.warning("Username is already taken");
+							}
+						});
+						$("#pass").focus();
 						callPOST("/checkemail",{email:rst.email.toLowerCase()},(res)=>{
-								console.log(res)
-							});
-						// checkingUsernameExist(rst.name.split(" ").join(""));
+							if (res.length>0){
+								toastr.warning("Email is already registered, please sign-in with this email");
+								$('#email').parsley().addError('forcederror', {message: 'Email is already taken.', updateClass: true});
+							}
+						});
 					})
 			}
 		}, {scope: 'email'});
 	}
-	var checkingEmailExist=(email)=>{
-		callPOST("/checkemail",{email:email.toLowerCase()},(res)=>{
-			console.log(res)
+
+	$('#wizard2').steps({
+        headerTag: 'h3',
+        bodyTag: 'section',
+        autoFocus: true,
+        titleTemplate: '<span class="number">#index#<\/span> <span class="title">#title#<\/span>',
+        onStepChanging: function(event, currentIndex, newIndex) {
+            if (currentIndex < newIndex) {
+                // Step 1 form validation
+                if (currentIndex === 0) {
+                    if (usernameParsley.isValid() && emailParsley.isValid()) {
+                        return true;
+                    } else {
+                        usernameParsley.validate();
+                        emailParsley.validate();
+                    }
+                }
+                // Step 2 form validation
+                if (currentIndex === 1) {
+                    var email = $('#email').parsley();
+                    if (email.isValid()) {
+                        return true;
+                    } else {
+                        email.validate();
+                    }
+                }
+                // Always allow step back to the previous step even if the current step is not valid.
+            } else {
+                return true;
+            }
+        }
+    });
+    var checkUsername=(ele)=>{
+    	console.log($(ele).val())
+    	callPOST("/checkusername",{username:$(ele).val()},(res)=>{
+			if (res.length>0){
+				toastr.warning("Username is already taken");
+				$('#username').parsley().addError('forcederror', {message: 'Username is already taken.', updateClass: true});
+			}
 		});
-	}
-	var checkingUsernameExist=(username)=>{
-		callPOST("/checkusername",{username:username},(res)=>{
-			console.log(res)
+    }
+    var checkEmail=(ele)=>{
+    	callPOST("/checkemail",{email:$(ele).val()},(res)=>{
+			if (res.length>0){
+				toastr.warning("Email is already taken");
+				$('#email').parsley().addError('forcederror', {message: 'Email is already taken.', updateClass: true});
+			}
 		});
-	}
+    }
 </script>
