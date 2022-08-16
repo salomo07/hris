@@ -61,26 +61,46 @@
                     </div>
                     <div class="container-login100">
                         <div class="wrap-login100 p-6">
-                            <form class="login100-form validate-form">
-                                <span class="login100-form-title">
-                                    Registration
-                                </span>
+                            <form id="formAccount" novalidate="novalidate">
                                 <div id="smartwizard">
 								    <div class="tab-content">
-							        <div id="wizard2">
+							        <div id="wizardRegistrasion">
                                         <h3><center>Account Information</center></h3>
                                         <section>
                                         	<div class="control-group form-group">
-                                                <label class="form-label">Username : <span
-                                                        class="tx-danger">*</span></label></label>
-                                                <input id="username" name="username" required="" type="text" class="form-control" placeholder="Username" onkeyup="checkUsername(this)" onchange="checkUsername(this)" data-parsley-type="alphanum" minlength="4">
+                                                <label class="form-label">Username :
+                                                <span class="tx-danger">*</span></label>
+                                                <input id="txtusername" name="txtusername" required="" type="text" class="form-control" placeholder="Username" minlength="4">
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                             <div class="control-group form-group">
                                                 <label class="form-control-label">Email : <span class="tx-danger">*</span></label>
-                                                <input id="email" name="email" required="" type="email" class="form-control" placeholder="Email" data-parsley-type="email" onchange="checkEmail(this)" onkeyup="checkEmail(this)">
+                                                <input id="txtemail" name="txtemail" required="" type="email" class="form-control" placeholder="Email">
+                                            </div>	
+                                            <div class="control-group form-group">
+                                                <label class="form-control-label">Password : <span class="tx-danger">*</span></label>
+                                                <input id="txtpass1" name="txtpass1" required="" type="password" class="form-control" placeholder="Password"minlength="5" >
+                                            </div>	
+                                            <div class="control-group form-group">
+                                                <label class="form-control-label">Password : <span class="tx-danger">*</span></label>
+                                                <input id="txtpass2" name="txtpass2" required="" type="password" class="form-control" placeholder="Re-type Password" minlength="5" data-v-equal="#txtpass1">
                                             </div>
+                                            <div id="register">
+			                                <label class="login-social-icon"><span>Or register with other account</span></label>
+			                                <div class="d-flex justify-content-center">
+											    <a id="customBtn">
+			                                        <div class="social-login me-4 text-center" data-onsuccess="onSignIn">
+			                                            <i class="fa fa-google"></i>
+			                                        </div>
+			                                    </a>
+			                                    <a id="fbBtn" onclick="onClickFB()" href="javascript:void(0)">
+			                                        <div class="social-login me-4 text-center">
+			                                            <i class="fa fa-facebook"></i>
+			                                        </div>
+			                                    </a>
+			                                </div>
                                         </section>
-                                        <h3>Billing Information</h3>
+                                        <h3>Company</h3>
                                         <section>
                                             <p>Wonderful transition effects.</p>
                                             <div class="form-group wd-xs-300">
@@ -88,23 +108,8 @@
                                                     id="email" name="email" placeholder="Enter email address" type="email" required="" autocomplete="new-password">
                                             </div>
                                         </section>
-                                        <div id="register">
-		                                <label class="login-social-icon"><span>Or register with other account</span></label>
-		                                <div class="d-flex justify-content-center">
-										    <a id="customBtn">
-		                                        <div class="social-login me-4 text-center" data-onsuccess="onSignIn">
-		                                            <i class="fa fa-google"></i>
-		                                        </div>
-		                                    </a>
-		                                    <a id="fbBtn" onclick="onClickFB()" href="javascript:void(0)">
-		                                        <div class="social-login me-4 text-center">
-		                                            <i class="fa fa-facebook"></i>
-		                                        </div>
-		                                    </a>
-		                                </div>
 	                                </div>
 								    </div>
-								    
 								</div>
                             </form>
                         </div>
@@ -136,9 +141,10 @@
         <!-- SHOW PASSWORD JS -->
         <script src="../assets/js/show-password.min.js"></script>
         
-        <script src="../assets/js/jquery.smartWizard.min.js"></script>
+        <!-- <script src="../assets/js/jquery.smartWizard.min.js"></script> -->
         <script src="../assets/js/jquery.steps.min.js"></script>
-        <script src="../assets/js/parsley.min.js"></script>
+        <!-- <script src="../assets/js/jquery.validate.min.js"></script> -->
+        <script src="../assets/js/just-validate.min.js"></script>
         <script src="../assets/js/jquery.accordion-wizard.min.js"></script>
         <script src="../assets/js/api_client.js"></script>
         <script src="../assets/js/toastr.min.js"></script>
@@ -146,12 +152,8 @@
 
 </html>
 <script>
-	var usernameParsley=$('#username').parsley();
-	var emailParsley=$('#email').parsley();
-
-    var step1=()=>{
-
-    }
+	var errorAll={username:false,email:false,password:false};
+	var form=$('#formAccount');
 	var callGET=((url,callback)=>{
         var settings = {
           "url": url,
@@ -196,34 +198,6 @@
 		});
 	};
 
-	function attachSignin(element) {
-		console.log(element.id);
-		auth2.attachClickHandler(element, {},
-		    function(googleUser) {
-		    	// console.log(googleUser.getBasicProfile().getEmail());
-		    	$("#username").val(googleUser.getBasicProfile().getName().split(" ").join(""));
-				$("#email").val(googleUser.getBasicProfile().getEmail());
-				callPOST("/checkusername",{username:googleUser.getBasicProfile().getName().split(" ").join("")},(res)=>{
-					if (res.length>0){
-						toastr.warning("Username is already taken");
-					}
-				});
-				$("#pass").focus();
-				callPOST("/checkemail",{email:googleUser.getBasicProfile().getEmail().toLowerCase()},(res)=>{
-					if (res.length>0){
-						console.log(usernameParsley)
-						toastr.warning("Email is already registered, please sign-in with this email");
-						$('#email').parsley().addError('emailexist', {message: 'Email is already registered, please sign-in with this email'});
-					}
-				});
-		    }, 
-		    function(error) {
-		      console.log(JSON.stringify(error, undefined, 2));
-		      toastr.error(JSON.stringify(error, undefined, 2),"Error");
-		    });
-	}
-	startApp();
-
 
 	window.fbAsyncInit = function() {
 	FB.init({appId:atob('{{.fid}}'),cookie: true,xfbml: false,version:'v2.7'});		
@@ -238,23 +212,51 @@
 	 fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));
 
+	function attachSignin(element) {
+		auth2.attachClickHandler(element, {},
+		    function(googleUser) {
+		    	// console.log(googleUser.getBasicProfile().getEmail());
+		    	$("#txtusername").val(googleUser.getBasicProfile().getName().split(" ").join(""));
+				$("#txtemail").val(googleUser.getBasicProfile().getEmail());
+				callPOST("/checkusername",{username:googleUser.getBasicProfile().getName().split(" ").join("")},(res)=>{
+					if (res.length>0){
+						toastr.warning("Username is already taken");
+					}
+				});
+				$("#pass").focus();
+				callPOST("/checkemail",{email:googleUser.getBasicProfile().getEmail().toLowerCase()},(res)=>{
+					if (res.length>0){
+						toastr.warning("Email is already registered, please sign-in with this email");
+					}
+				});
+		    }, 
+		    function(error) {
+		      console.log(JSON.stringify(error, undefined, 2));
+		      toastr.error(JSON.stringify(error, undefined, 2),"Error");
+		    });
+	}
 	var onClickFB=()=>{
+		errorAll.username=false;errorAll.email=false;
+		validation.refresh();
 		FB.login(function(response) {
 			if (response.authResponse){
-				console.log(response.authResponse.accessToken);
 				callGET("https://graph.facebook.com/"+response.authResponse.userID+"?fields=email,name&access_token="+response.authResponse.accessToken,(rst)=>{
-						$("#username").val(rst.name.split(" ").join(""));
-						$("#email").val(rst.email);
+						$("#txtusername").val(rst.name.split(" ").join(""));
+						$("#txtemail").val(rst.email);
 						callPOST("/checkusername",{username:rst.name.split(" ").join("")},(res)=>{
 							if (res.length>0){
 								toastr.warning("Username is already taken");
+								validation.showErrors({'#txtusername':'Username is already taken'});
+								errorAll.username=true;
 							}
 						});
-						$("#pass").focus();
+						$("#txtpass1").focus();
 						callPOST("/checkemail",{email:rst.email.toLowerCase()},(res)=>{
 							if (res.length>0){
 								toastr.warning("Email is already registered, please sign-in with this email");
-								$('#email').parsley().addError('forcederror', {message: 'Email is already taken.', updateClass: true});
+								validation.showErrors({'#txtemail':'Email is already taken'});
+								errorAll.email=true;
+								
 							}
 						});
 					})
@@ -262,52 +264,150 @@
 		}, {scope: 'email'});
 	}
 
-	$('#wizard2').steps({
+	$('#wizardRegistrasion').steps({
         headerTag: 'h3',
         bodyTag: 'section',
         autoFocus: true,
+        transitionEffect: "slideLeft",
         titleTemplate: '<span class="number">#index#<\/span> <span class="title">#title#<\/span>',
         onStepChanging: function(event, currentIndex, newIndex) {
             if (currentIndex < newIndex) {
                 // Step 1 form validation
-                if (currentIndex === 0) {
-                    if (usernameParsley.isValid() && emailParsley.isValid()) {
-                        return true;
-                    } else {
-                        usernameParsley.validate();
-                        emailParsley.validate();
-                    }
+                if (currentIndex === 0) { 
+                	return !checkForm1();
+                	// validation.revalidate().then(isValid => {
+                	// 	console.log(isValid)
+                	// })
+                	// if(validator.checkAll()==0)
+                	// {return true;}
+                	// else{return false;}   
                 }
                 // Step 2 form validation
                 if (currentIndex === 1) {
-                    var email = $('#email').parsley();
                     if (email.isValid()) {
                         return true;
                     } else {
-                        email.validate();
+                        // email.validate();
                     }
                 }
                 // Always allow step back to the previous step even if the current step is not valid.
             } else {
                 return true;
             }
+        },
+        onFinishing:(event, currentIndex)=>{
+        	console.log("Finishing")
         }
     });
-    var checkUsername=(ele)=>{
-    	console.log($(ele).val())
-    	callPOST("/checkusername",{username:$(ele).val()},(res)=>{
-			if (res.length>0){
+
+	
+	var domHTML=this;
+    var checkUsername=(ele,rst)=>{
+    	validation.validation.refresh();errorAll.username=false;
+    	if($(ele).val() !=""){
+	    	callPOST("/checkusername",{username:$(ele).val()},(res)=>{
+				if (res.length>0){
+					toastr.warning("Username is already taken");
+					validation.showErrors({ '#txtusername': 'Username is already taken' });
+					errorAll.username=true;
+				}
+			});
+		}
+    }
+    var checkEmail=(ele,rst)=>{
+    	validation.refresh();errorAll.email=false;
+		if ($(ele).val()!=""){	
+	    	return callPOST("/checkemail",{email:$(ele).val()},(res)=>{
+				if (res.length>0){
+					toastr.warning("Email is already taken");
+					validation.showErrors({'#txtemail':'Email is already taken'});
+					errorAll.email=true;
+				}
+			});
+		}
+    }
+
+    $('#txtusername').on('input',(instance)=>{
+    	checkUsername($('#txtusername'));
+    })
+    $('#txtemail').on('input',(instance)=>{
+		checkEmail($('#txtemail'));
+    })
+	startApp();
+
+	const validation = new JustValidate('#formAccount', {
+		errorFieldCssClass: 'is-invalid',
+		focusInvalidField: true,
+        lockForm: true,
+	});
+	validation.addField('#txtusername', [
+	{
+	  rule: 'required',
+	  errorMessage: 'Username is required'
+	}]);
+	validation.addField('#txtemail', [
+	{
+	  rule: 'required',
+	  errorMessage: 'Email is required'
+	},{
+	  rule: 'email',
+	  errorMessage: 'Email is not valid'
+	}]);
+	validation.addField('#txtpass1', [
+	{
+	  rule: 'required',
+	  errorMessage: 'Field is required'
+	}]);
+	validation.addField('#txtpass2', [
+	{
+	  rule: 'required',
+	  errorMessage: 'Field is required'
+	}]);
+	var checkForm1=()=>{
+		var err=false;
+		validation.revalidateField('#txtusername').then(isValid => {
+			if(!isValid){
+				validation.showErrors({'#txtusername':'Username is required'});
+				return true;
+			}
+			if(errorAll.username==true){
 				toastr.warning("Username is already taken");
-				$('#username').parsley().addError('forcederror', {message: 'Username is already taken.', updateClass: true});
+				validation.showErrors({'#txtusername':'Username is already taken'});
+				return true;
 			}
-		});
-    }
-    var checkEmail=(ele)=>{
-    	callPOST("/checkemail",{email:$(ele).val()},(res)=>{
-			if (res.length>0){
+		})
+		validation.revalidateField('#txtemail').then(isValid => {
+			if(!isValid){
+				validation.showErrors({'#txtemail':'Email is required'});
+				return true;
+			}
+			if(errorAll.email==true){
 				toastr.warning("Email is already taken");
-				$('#email').parsley().addError('forcederror', {message: 'Email is already taken.', updateClass: true});
+				validation.showErrors({'#txtemail':'Email is already taken'});
+				return true;
 			}
-		});
-    }
+		})
+		validation.revalidateField('#txtpass1').then(isValid => {
+			if(!isValid){
+				validation.showErrors({'#txtpass1':'Password is required'});
+				return true;
+			}
+			if($('#txtpass1').val()!=$('#txtpass2').val()){
+				validation.showErrors({'#txtpass1':'Password is not match'});
+				return true;
+			}
+		})
+		validation.revalidateField('#txtpass2').then(isValid => {
+			if(!isValid){
+				validation.showErrors({'#txtpass2':'Password is required'});
+				return true;
+			}
+			if($('#txtpass1').val()!=$('#txtpass2').val()){
+				validation.showErrors({'#txtpass2':'Password is not match'});
+				return true;
+			}
+		})
+		console.log(err);
+		return err;
+	}
 </script>
