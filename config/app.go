@@ -11,10 +11,10 @@ var (
 	db * gorm.DB
 )
 func Connect(){
-	er := godotenv.Load()
-	if er !=nil{
-		panic("Fail to load .env file")
-	}
+	// er := godotenv.Load()
+	// if er !=nil{
+	// 	panic("Fail to load .env file")
+	// }
 	log.Println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",os.Getenv("DB_HOST"))
 
 	DB_HOST:=os.Getenv("DB_HOST")
