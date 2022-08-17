@@ -5,6 +5,7 @@ import(
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"github.com/joho/godotenv"
+	"log"
 )
 var (
 	db * gorm.DB
@@ -15,7 +16,7 @@ func Connect(){
 		panic("Fail to load .env file")
 	}
 	log.Println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",os.Getenv("DB_HOST"))
-	
+
 	DB_HOST:=os.Getenv("DB_HOST")
 	DB_USER:=os.Getenv("DB_USER")
 	DB_PASS:=os.Getenv("DB_PASS")
