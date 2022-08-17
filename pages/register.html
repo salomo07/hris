@@ -152,6 +152,16 @@
 
 </html>
 <script>
+	const validation = new JustValidate('#formAccount', {
+		errorFieldCssClass: 'is-invalid',
+		focusInvalidField: true,
+        lockForm: true,
+        successFieldCssClass: 'is-valid',
+        successLabelStyle: {
+          fontSize: '14px',
+          color: '#20b418',
+        }
+	});
 	var errorAll={username:false,email:false,password:false};
 	var form=$('#formAccount');
 	var callGET=((url,callback)=>{
@@ -197,7 +207,6 @@
 		  attachSignin(document.getElementById('customBtn'));
 		});
 	};
-
 
 	window.fbAsyncInit = function() {
 	FB.init({appId:atob('{{.fid}}'),cookie: true,xfbml: false,version:'v2.7'});		
@@ -274,7 +283,8 @@
             if (currentIndex < newIndex) {
                 // Step 1 form validation
                 if (currentIndex === 0) { 
-                	return !checkForm1();
+                	console.log(checkForm1())
+                	return false;
                 	// validation.revalidate().then(isValid => {
                 	// 	console.log(isValid)
                 	// })
@@ -303,25 +313,30 @@
 	
 	var domHTML=this;
     var checkUsername=(ele,rst)=>{
-    	validation.validation.refresh();errorAll.username=false;
+    	if(errorAll.username==false && errorAll.email==false && errorAll.password==false)
+    	{validation.refresh();}
+    	errorAll.username=false;
     	if($(ele).val() !=""){
 	    	callPOST("/checkusername",{username:$(ele).val()},(res)=>{
 				if (res.length>0){
-					toastr.warning("Username is already taken");
-					validation.showErrors({ '#txtusername': 'Username is already taken' });
+					toastr.warning("Username is already registered");
+					validation.showErrors({ '#txtusername': 'Username is already registered' });
 					errorAll.username=true;
 				}
 			});
 		}
     }
     var checkEmail=(ele,rst)=>{
-    	validation.refresh();errorAll.email=false;
+    	errorAll.email=false;
 		if ($(ele).val()!=""){	
 	    	return callPOST("/checkemail",{email:$(ele).val()},(res)=>{
 				if (res.length>0){
-					toastr.warning("Email is already taken");
-					validation.showErrors({'#txtemail':'Email is already taken'});
+					toastr.warning("Email is already registered");
+					validation.showErrors({'#txtemail':'Email is already registered'});
 					errorAll.email=true;
+				}else{
+					validation.showSuccessLabels({'#txtemail': 'The email looks good!',});
+					// validation.showErrors({'#txtemail':''});
 				}
 			});
 		}
@@ -335,11 +350,7 @@
     })
 	startApp();
 
-	const validation = new JustValidate('#formAccount', {
-		errorFieldCssClass: 'is-invalid',
-		focusInvalidField: true,
-        lockForm: true,
-	});
+	
 	validation.addField('#txtusername', [
 	{
 	  rule: 'required',
@@ -407,7 +418,6 @@
 				return true;
 			}
 		})
-		console.log(err);
 		return err;
 	}
 </script>
